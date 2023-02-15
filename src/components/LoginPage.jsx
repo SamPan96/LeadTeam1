@@ -12,8 +12,9 @@ export default function LoginPage() {
         direction="column"
         justifyContent="center"
         alignItems="center"
-        style={{marginTop:'100px'}}
+        style={{marginTop:'0px'}}
         rowSpacing={10}
+
       >
         <Grid item xs={12}>
         <img src={lead} alt="React Logo" />

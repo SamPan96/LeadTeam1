@@ -13,15 +13,14 @@ const firebaseConfig = {
   // Initialize Firebase 
   const app = initializeApp(firebaseConfig);
   export const auth = getAuth(app);
-  
   const provider = new GoogleAuthProvider();
   
-  export const signInWithGoogle = () => {
+    export const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         console.log(result)
-         if (userExists(result.uid)){
-            navigator.navigator
+         if (!userExists(result.uid)){
+            createUser(user);
          }
       })
       .catch((error) => {
@@ -34,5 +33,5 @@ const firebaseConfig = {
   }
   
   export const createUser = (user) => {
-    
+
   }
