@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Route,
   BrowserRouter as Router,
@@ -29,6 +29,7 @@ function App() {
   const [newUser, setnewUser] = useState(false);
   const auth = getAuth();
 
+ useEffect(() => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
@@ -44,6 +45,11 @@ function App() {
       // ...
     }
   });
+ 
+   return () => {
+     
+   }
+ }, [])
   if (user && !newUser) {
     return (
       <div className="App" style={{ width: "100%", height: "1000px" }}>
@@ -60,7 +66,7 @@ function App() {
         <div className="App" style={{ width: "100%", height: "1000px" }}>
           <Router>
             <Routes>
-              <Route exact path="/" element={<Signup user={user} />} />
+              <Route exact path="/" element={<Signup setnewUser={setnewUser}/>} />
             </Routes>
           </Router>
         </div>

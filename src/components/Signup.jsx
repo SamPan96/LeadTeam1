@@ -2,11 +2,12 @@ import { Button, Grid, TextField, Typography } from "@material-ui/core";
 import { getAuth } from "firebase/auth";
 import React, { useState } from "react";
 import lead from "../assets/lead.png";
-import { auth } from "../service/firebase";
+import { auth, createUser } from "../service/firebase";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
-export default function Signup() {
+export default function Signup(props) {
+  const {setnewUser} = props
   const [mentor, setmentor] = useState(false);
   const auth = getAuth();
   const user = auth.currentUser;
@@ -20,6 +21,7 @@ export default function Signup() {
     mentor: mentor,
     age: undefined,
     description: undefined,
+    id:user.uid
   });
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
@@ -28,6 +30,11 @@ export default function Signup() {
       [name]: value,
     });
   };
+  const handleClick = () =>{
+    createUser(formValues);
+    setnewUser(false)
+
+  }
 
   user.providerData.forEach(profile=>{console.log(profile.photoURL)})
   return (
@@ -39,6 +46,7 @@ export default function Signup() {
         alignContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        
       }}
     >
       <img src={lead} alt="React Logo" style={{ marginTop: 100 }} />
@@ -143,7 +151,7 @@ export default function Signup() {
         </Grid>
 
         <Grid item xs={12} style={{marginBottom:10}}>
-            <Button variant="contained"style={{borderColor:'black',borderWidth:20,borderRadius:10}}>
+            <Button variant="contained"style={{borderColor:'black',borderWidth:20,borderRadius:10}} onClick={handleClick}>
                 הירשם
             </Button>
         </Grid>

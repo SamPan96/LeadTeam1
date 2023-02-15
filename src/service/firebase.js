@@ -34,5 +34,8 @@ const firebaseConfig = {
 
   
   export const createUser = (user) => {
-
+    console.log('here')
+    console.log(user)
+    const ref = doc(db, 'Users',user.id);
+    setDoc(ref,user);
   }
