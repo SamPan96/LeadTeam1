@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore"; 
 
 const firebaseConfig = {
     apiKey: "AIzaSyAyyPdpwUUF2r18t8S8e_ZoBTke_-by0ko",
@@ -12,25 +13,25 @@ const firebaseConfig = {
   };
   // Initialize Firebase 
   const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
   export const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   
     export const signInWithGoogle = () => {
     signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result)
-         if (!userExists(result.uid)){
-            createUser(user);
-         }
-      })
       .catch((error) => {
         console.log(error);
       });
   };
   
-  export const userExists = (uid) => {
+  export const userExists = async (uid) => {
+    const docRef = doc(db, "Users",uid);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists();
+    }
+      
 
-  }
+
   
   export const createUser = (user) => {
 
