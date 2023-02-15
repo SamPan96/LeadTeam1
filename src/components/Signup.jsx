@@ -1,31 +1,153 @@
-import { Grid, Typography } from '@material-ui/core'
-import React from 'react'
-import lead from '../assets/lead.png';
-
+import { Button, Grid, TextField, Typography } from "@material-ui/core";
+import { getAuth } from "firebase/auth";
+import React, { useState } from "react";
+import lead from "../assets/lead.png";
+import { auth } from "../service/firebase";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export default function Signup() {
-console.log('here')
+  const [mentor, setmentor] = useState(false);
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const handleChange = () => {
+    setmentor(!mentor);
+  };
+  const [formValues, setformValues] = useState({
+    name: user.displayName,
+    email: user.email,
+    picture: user.photoURL,
+    mentor: mentor,
+    age: undefined,
+    description: undefined,
+  });
+  const handleChangeForm = (e) => {
+    const { name, value } = e.target;
+    setformValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  user.providerData.forEach(profile=>{console.log(profile.photoURL)})
   return (
-    <div style={{ backgroundColor: '#254D68',minHeight:'100%'
-}}>
+    <div
+      style={{
+        backgroundColor: "#254D68",
+        minHeight: "100%",
+        display: "flex",
+        alignContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
+      <img src={lead} alt="React Logo" style={{ marginTop: 100 }} />
+      {mentor && (
+        <Grid item xs={12}>
+          <Typography variant="h3" style={{ color: "white" }}>
+            הרשמה חונך
+          </Typography>
+        </Grid>
+      )}
+      {!mentor && (
+        <Grid item xs={12}>
+          <Typography variant="h3" style={{ color: "white" }}>
+            הרשמה שגריר
+          </Typography>
+        </Grid>
+      )}
       <Grid
         container
         direction="column"
         justifyContent="center"
         alignItems="center"
-        style={{marginTop:'0px'}}
-        rowSpacing={10}
-
+        style={{
+          marginTop: 10,
+          backgroundColor: "lightgray",
+          maxWidth: "50%",
+          border: 1,
+          borderRadius: 20,
+          marginBottom:30
+        }}
+        rowSpacing={3}
       >
         <Grid item xs={12}>
-        <img src={lead} alt="React Logo" />
+          <img
+            src={user.photoURL}
+            style={{
+              width: 150,
+              height: 150,
+              borderRadius: 150 / 2,
+              overflow: "auto",
+              borderWidth: 3,
+              borderColor: "red",
+            }}
+          />
         </Grid>
-        <Grid item xs={12}>
 
+        <Grid item xs={12}>
+          <ToggleButtonGroup
+            color="primary"
+            value={mentor ? "חונך" : "שגריר"}
+            exclusive
+            onChange={handleChange}
+            aria-label="Platform"
+          >
+            <ToggleButton value="web" style={{ borderColor: "black" }}>
+              שגריר
+            </ToggleButton>
+            <ToggleButton value="android">חונך</ToggleButton>
+          </ToggleButtonGroup>
+        </Grid>
+
+        <Grid item xs={12}>
+          <TextField
+            disabled
+            id="outlined-disabled"
+            label="שם"
+            defaultValue={user.displayName}
+          />
         </Grid>
         <Grid item xs={12}>
+          <TextField
+            disabled
+            id="outlined-disabled"
+            label="email"
+            defaultValue={user.email}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required={true}
+            name="age"
+            label="גיל"
+            type="number"
+            InputProps={{
+              inputProps: {
+                min: 0,
+              },
+            }}
+            defaultValue={user.email}
+            onChange={handleChangeForm}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            name="description"
+            label="...קצת עליי"
+            multiline
+            maxRows={50}
+            variant="filled"
+            onChange={handleChangeForm}
+          />
+        </Grid>
+
+        <Grid item xs={12} style={{marginBottom:10}}>
+            <Button variant="contained"style={{borderColor:'black',borderWidth:20,borderRadius:10}}>
+                הירשם
+            </Button>
         </Grid>
       </Grid>
     </div>
-  )
+  );
 }
