@@ -32,11 +32,10 @@ function App() {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
-      if (userExists) {
+      if (!userExists(uid)) {
         setuser(user);
         setnewUser(false);
       } else {
-        createUser(user)
         setuser(user)
         setnewUser(true)
       }
