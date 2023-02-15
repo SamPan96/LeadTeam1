@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
 import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import DashboardPage from "./components/DashboardPage";
 import LoginPage from "./components/LoginPage";
 import "./App.css";
+import { createUser, userExists } from "./service/firebase";
 
 function App() {
 const firebaseConfig = {
@@ -20,25 +21,33 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const [user, setuser] = useState(undefined);
+const [newUser, setnewUser] = useState(false)
 const auth = getAuth();
+const navigate = useNavigate();
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
       const uid = user.uid;
-      setuser(user)
+      if (userExists){
+        setuser(user)
+      }
+      else{
+        navigate("/signup")
+      }
       // ...
-    } else {
+    }
+     else {
       // User is signed out
       // ...
     }
   });
   if(user){
   return (
-    <div className="App">
+    <div className="App" style={{width:'100%',height:'1000px'}}>
         <Router>
           <Routes>
             <Route exact path="/" element={<DashboardPage user={user} />} />
+            <Route exact path="/signup" element={<Signup/>} />
           </Routes>
         </Router>
     </div>
@@ -47,7 +56,7 @@ const auth = getAuth();
   else{
     console.log('here')
     return (
-      <div className="App">
+      <div className="App" style={{width:'100%',height:'1000px'}}>
           <Router>
             <Routes>
               <Route exact path="/" element={<LoginPage/>} />
