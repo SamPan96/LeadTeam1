@@ -11,9 +11,6 @@ export default function Signup(props) {
   const [mentor, setmentor] = useState(false);
   const auth = getAuth();
   const user = auth.currentUser;
-  const handleChange = () => {
-    setmentor(!mentor);
-  };
   const [formValues, setformValues] = useState({
     name: user.displayName,
     email: user.email,
@@ -24,6 +21,18 @@ export default function Signup(props) {
     id:user.uid,
     projects:[],
   });
+
+  const handleChange = () => {
+    if(mentor){
+        setformValues({...formValues,'mentor':false})
+        setmentor(false)
+    }
+    else{
+        setformValues({...formValues,'mentor':true})
+        setmentor(true)
+    }
+  };
+  console.log(formValues)
   const handleChangeForm = (e) => {
     const { name, value } = e.target;
     setformValues({

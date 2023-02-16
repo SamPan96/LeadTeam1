@@ -1,4 +1,4 @@
-import { Grid, Typography } from "@mui/material";
+import { Grid, Paper, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { getProjectData } from "../service/firebase";
 
@@ -28,7 +28,7 @@ export default function Project(props) {
           minWidth:'100%'
         }}
       >
-        <Grid
+{/* `        <Grid
           container
           direction="column"
           justifyContent="center"
@@ -71,8 +71,20 @@ export default function Project(props) {
 
             </Grid>
           </Grid>
-        </Grid>
-      </div>
+        </Grid> */}
+        <Paper elevation={1} style={{width:400,height:400}}>
+        <Typography variant="h6" style={{ color: "black" }}>
+                  {data.name}
+                </Typography>
+        <Typography variant="subtitle2" style={{ color: "black",marginTop:20 }}>
+                  {data.description}
+                </Typography>
+        
+
+
+
+        </Paper>
+`      </div>
     );
   }
 }
