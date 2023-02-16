@@ -35,6 +35,7 @@ export default function NewProject(props) {
       direction="column"
       justifyContent="center"
       alignItems="center"
+      backgroundColor="white"
       style={{
         marginTop: 10,
         border: 1,
@@ -49,7 +50,7 @@ export default function NewProject(props) {
     
 
       <Grid item xs={12}>
-      <Typography variant="h3" style={{ color: "white" }}>
+      <Typography variant="h3" style={{ color: "black" }}>
             יצירת מיזם חדש
           </Typography>
       </Grid>
