@@ -25,34 +25,28 @@ function App() {
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const [user, setuser] = useState(undefined);
-  const [newUser, setnewUser] = useState(false);
   const auth = getAuth();
+  const [checked, setchecked] = useState(false)
+  const [user, setuser] = useState(auth.currentUser);
+  const [newUser, setnewUser] = useState(user?!userExists(user.uid):false);
 
- useEffect(() => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const uid = user.uid;
-      if (!userExists(uid)) {
-        setuser(user);
-        setnewUser(false);
-      } else {
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
         setuser(user)
-        setnewUser(true)
+        const uid = user.uid;
+        console.log(uid);
+        await userExists(uid).then((res)=>{
+          setnewUser(!res)
+        })
       }
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
- 
-   return () => {
-     
-   }
- }, [])
+    });
+  }, [])
+  
+console.log(newUser)
   if (user && !newUser) {
     return (
-      <div className="App" style={{ width: "100%", height: "1000px" }}>
+      <div className="App" style={{ width: "100%" }}>
         <Router>
           <Routes>
             <Route exact path="/" element={<DashboardPage user={user} />} />
@@ -60,8 +54,8 @@ function App() {
         </Router>
       </div>
     );
-  } else {
-    if (newUser) {
+  } 
+  if(user && newUser) {
       return (
         <div className="App" style={{ width: "100%", height: "1000px" }}>
           <Router>
@@ -71,7 +65,8 @@ function App() {
           </Router>
         </div>
       );
-    } else {
+  }
+     if(!user) { 
       return (
         <div className="App" style={{ width: "100%", height: "1000px" }}>
           <Router>
@@ -83,6 +78,5 @@ function App() {
       );
     }
   }
-}
 
 export default App;

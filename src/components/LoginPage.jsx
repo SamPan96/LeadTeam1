@@ -1,9 +1,13 @@
 import { Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import GoogleButton from "react-google-button";
-import { signInWithGoogle } from "../service/firebase";
+import { auth, signInWithGoogle } from "../service/firebase";
 import lead from "../assets/lead.png";
+import { getAuth } from "firebase/auth";
 export default function LoginPage() {
+  const handleClick  = async () =>{
+    signInWithGoogle()
+  }
   return (
     <div style={{ backgroundColor: "#254D68", minHeight: "100%" }}>
       <Grid
@@ -25,7 +29,7 @@ export default function LoginPage() {
         </Grid>
         <Grid item xs={12}>
           <GoogleButton
-            onClick={signInWithGoogle}
+            onClick={handleClick}
             style={{ borderRadius: 30 }}
           ></GoogleButton>
         </Grid>

@@ -21,7 +21,8 @@ export default function Signup(props) {
     mentor: mentor,
     age: undefined,
     description: undefined,
-    id:user.uid
+    id:user.uid,
+    projects:[],
   });
   const handleChangeForm = (e) => {
     const { name, value } = e.target;

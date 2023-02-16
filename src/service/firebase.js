@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { collection, doc, getDoc, getFirestore, setDoc } from "firebase/firestore"; 
+import { addDoc, arrayUnion, collection, doc, getDoc, getFirestore, setDoc, updateDoc } from "firebase/firestore"; 
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyAyyPdpwUUF2r18t8S8e_ZoBTke_-by0ko",
@@ -27,15 +28,26 @@ const firebaseConfig = {
   export const userExists = async (uid) => {
     const docRef = doc(db, "Users",uid);
     const docSnap = await getDoc(docRef);
+    console.log(docSnap.exists());
     return docSnap.exists();
     }
       
+ export const getUser = async(uid) =>{
+    const docRef = doc(db,"Users",uid);
+    const docSnap = await getDoc(docRef)
+    return docSnap.data()
+ }
 
-
-  
   export const createUser = (user) => {
-    console.log('here')
-    console.log(user)
     const ref = doc(db, 'Users',user.id);
     setDoc(ref,user);
+  }
+  
+  export const createProject = async (project,userData) =>{
+    console.log(userData)
+    const docRef = await addDoc(collection(db, "Projects"),project);
+    const userRef = doc(db, "Users",userData.id);
+    await updateDoc(userRef, {
+        projects: arrayUnion(docRef)
+    });
   }
