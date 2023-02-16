@@ -23,7 +23,6 @@ export default function DashboardPage(props) {
   const loadData = () =>{
     console.log('here')
     getUser(user.uid).then((data)=>{
-      console.log('data')
       setuserData(data)
     }
   )
@@ -35,6 +34,7 @@ export default function DashboardPage(props) {
     return () => {
     }
   }, [loaded])
+
   
   
   return (
@@ -48,6 +48,7 @@ export default function DashboardPage(props) {
           marginTop: 10,
           border: 1,
           borderRadius: 20,
+          minWidth:'100%',
           marginBottom:30
         }}
         rowSpacing={3}
@@ -60,7 +61,7 @@ export default function DashboardPage(props) {
 {userData &&
 value==0 && 
 userData.projects.length>0 &&
-  <Grid item xs={12}>
+  <Grid item xs={12} style={{minWidth:'100%'}}>
     <Project project={userData.projects[0]}/>
   </Grid>
 }

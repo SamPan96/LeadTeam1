@@ -51,3 +51,8 @@ const firebaseConfig = {
         projects: arrayUnion(docRef)
     });
   }
+  export const getProjectData = async(project)=>{
+    const data = await getDoc(project)
+    return data.data()
+    
+  }
