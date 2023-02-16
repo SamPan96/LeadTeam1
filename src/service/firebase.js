@@ -56,3 +56,26 @@ const firebaseConfig = {
     return data.data()
     
   }
+
+  export const createGoal = async(goal,project)=>{
+    console.log(project.id)
+    const docRef = doc(db,"Projects",project.id);
+    await updateDoc(docRef,{
+        goals:arrayUnion(goal)
+    })
+  }
+  
+  export const checkUncheck = async(project,idx) =>{
+    const docRef = doc(db,"Projects",project.id);
+    const data = await getDoc(docRef)
+    console.log (data.data())
+    const goal = data.data().goals[idx]
+    const newGoal = {...goal,completed:!goal.completed}
+    let newgoals = data.data().goals
+    newgoals[idx] = newGoal
+    console.log(goal)
+    await updateDoc(docRef,{
+        goals:newgoals
+    })
+
+  }

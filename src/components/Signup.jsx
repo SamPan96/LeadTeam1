@@ -57,6 +57,7 @@ export default function Signup(props) {
         alignItems: "center",
         flexDirection: "column",
         
+        
       }}
     >
       <img src={lead} alt="React Logo" style={{ marginTop: 100 }} />
@@ -79,9 +80,9 @@ export default function Signup(props) {
         direction="column"
         justifyContent="center"
         alignItems="center"
+        backgroundColor="lightGrey"
         style={{
           marginTop: 10,
-          backgroundColor: "lightgray",
           maxWidth: "50%",
           border: 1,
           borderRadius: 20,

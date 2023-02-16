@@ -37,7 +37,6 @@ export default function NewProject(props) {
       alignItems="center"
       style={{
         marginTop: 10,
-        backgroundColor: "lightgray",
         border: 1,
         borderRadius: 20,
         marginBottom:30,

@@ -12,6 +12,7 @@ import Project from './Project';
 import newProject from './newProject';
 import NewProject from './newProject';
 import { LocalSeeRounded } from '@mui/icons-material';
+import sad from "../assets/sad.png"
 export default function DashboardPage(props) {
   const {user} = props;
   const [value, setValue] = React.useState(0);
@@ -74,7 +75,9 @@ userData.projects.length==0 &&
             !אין לך מיזמים{" "}
       </Typography>
   </Grid>
+
 }
+
 {userData &&
 value==0 && 
 userData.projects.length==0 &&
